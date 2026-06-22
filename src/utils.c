@@ -5,10 +5,18 @@ float clock_sec() {
 }
 
 void wait(float s) {
-    float start = clock_sec();
-    float end = start + s;
+    struct timespec ts;
+    ts.tv_sec = (time_t)s; 
 
-    while(clock_sec() < end);
+    float frac = s - ts.tv_sec; 
+    ts.tv_nsec = (long)(frac * 1000000000.0);
+
+    if (ts.tv_nsec >= 1000000000) {
+        ts.tv_sec += 1;
+        ts.tv_nsec -= 1000000000;
+    }
+
+    nanosleep(&ts, NULL);
 }
 
 bool dir_exists(char *path) {
@@ -38,6 +46,47 @@ bool is_int(char *string) {
 
             has_minus = true;
             continue;
+        }
+
+        if(!isdigit(c)) {
+            return false;
+        }
+        
+        got_digit = true;
+    }
+
+    return true;
+}
+
+bool is_float(const char *string) {
+    size_t len = strlen(string);
+
+    bool has_minus = false;
+    bool has_dot = false;
+    bool got_digit = false;
+    
+    if(len == 0) {
+        return false;
+    }
+
+    for(size_t i = 0; i < len; i++) {
+        char c = string[i];
+
+        if(c == '-') {
+            if(has_minus || got_digit) {
+                return false;
+            }
+
+            has_minus = true;
+            continue;
+        }
+
+        if(c == '.') {
+            if(has_dot) {
+                return false;
+            }
+
+            has_dot = true;
         }
 
         if(!isdigit(c)) {

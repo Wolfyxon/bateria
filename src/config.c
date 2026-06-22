@@ -151,7 +151,7 @@ AppState get_default_state() {
 
     AppState state = {
         .battery_name = "BAT0",
-        .interval = 0,
+        .interval = 1,
         .battery_targets = targets,
         .battery_targets_len = 3
     };
