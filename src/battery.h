@@ -8,7 +8,7 @@
 #include "utils.h"
 
 #ifndef BATTERY_DIR
-#define BATTERY_DIR "/tmp/bat" /*"/sys/class/power_supply"*/
+#define BATTERY_DIR "/sys/class/power_supply"
 #endif
 
 #define BATTERY_DIR_LEN strlen(BATTERY_DIR)
