@@ -15,6 +15,7 @@ typedef struct {
 
 typedef struct {
     float interval;
+    char *battery_name;
     BatteryTarget *battery_targets;
     BatteryTarget *last_battery_target;
     size_t battery_targets_len;

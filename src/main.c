@@ -8,6 +8,16 @@ int main(int argc, char **argv) {
     AppState state = get_default_state();
 
     process_args(&state, argc, argv);
+
+    if(!battery_dir_exists()) {
+        fprintf(stderr, "error: Battery directory '%s' not found. What the heck?\n", BATTERY_DIR);
+        exit(1);
+    }
+
+    if(!battery_exists(state.battery_name)) {
+        fprintf(stderr, "error: Battery '%s' not found. Use --battery to change it.\n", state.battery_name);
+        exit(1);
+    }
     
     if(state.battery_targets_len == 0) {
         fprintf(stderr, "error: No battery discharge targets configured.\n");
@@ -76,10 +86,8 @@ void print_targets(AppState *state) {
 }
 
 bool should_loop(AppState *state) {
-    char *battery_name = "BAT0";
-
     bool discharging;
-    BatteryError err = battery_is_discharging(&discharging, battery_name);
+    BatteryError err = battery_is_discharging(&discharging, state->battery_name);
 
     if(err != BATTERY_OK) {
         char err_str[64] = {0};
@@ -93,10 +101,8 @@ bool should_loop(AppState *state) {
 }
 
 BatteryTarget *get_active_battery_target(AppState *state) {
-    char *battery_name = "BAT0";
-
     double percent;
-    BatteryError err = battery_get_percentage(&percent, battery_name);
+    BatteryError err = battery_get_percentage(&percent, state->battery_name);
 
     if(err != BATTERY_OK) {
         char err_str[64] = {0};

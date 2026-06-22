@@ -8,7 +8,30 @@ void load_state_from_args(AppState *state, int argc, char **argv) {
     for(size_t i = 1; i < argc; i++) {
         char *arg = argv[i];
 
-        if(streq(arg, "--target")) {
+        if(streq(arg, "--battery")) {
+            if(argc < i + 2) {
+                fprintf(stderr, "error: Usage: --battery <battery sys name>\n");
+                exit(1);
+            }
+
+            char *bat_arg = argv[i + 1];
+
+            size_t len = strlen(bat_arg);
+            char *buf = malloc(len + 1);
+
+            if(buf == NULL) {
+                fprintf(stderr, "error: Unable to create battery name buffer\n");
+                exit(1);
+            }
+
+            strncpy(buf, bat_arg, len);
+            buf[len] = '\0';
+
+            state->battery_name = buf;
+            i++;
+        }
+
+        else if(streq(arg, "--target")) {
             if(!targets_added) {
                 clear_targets(state);
                 targets_added = true;
@@ -127,6 +150,7 @@ AppState get_default_state() {
     }
 
     AppState state = {
+        .battery_name = "BAT0",
         .interval = 0,
         .battery_targets = targets,
         .battery_targets_len = 3
