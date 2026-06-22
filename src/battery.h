@@ -28,8 +28,8 @@ typedef enum BatteryError {
 char *battery_error_str(BatteryError error);
 void battery_error_str_errno(char *dest, size_t max_len, BatteryError error);
 
-BatteryError battery_dir_exists();
-BatteryError battery_exists(char *battery_name);
+bool battery_dir_exists();
+bool battery_exists(char *battery_name);
 
 size_t battery_get_path_len(char *battery_name);
 void battery_get_path(char *dest, char *battery_name);

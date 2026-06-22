@@ -32,12 +32,8 @@ void battery_error_str_errno(char *dest, size_t max_len, BatteryError error) {
     dest[max_len - 1] = '\0';
 }
 
-BatteryError battery_dir_exists() {
-    if(dir_exists(BATTERY_DIR)) {
-        return BATTERY_OK;
-    } else {
-        return BATTERY_ERR_DIR_NOT_FOUND;
-    }
+bool battery_dir_exists() {
+    return dir_exists(BATTERY_DIR);
 }
 
 size_t battery_get_path_len(char *battery_name) {
@@ -48,20 +44,16 @@ void battery_get_path(char *dest, char *battery_name) {
     sprintf(dest, "%s/%s", BATTERY_DIR, battery_name);
 }
 
-BatteryError battery_exists(char *battery_name) {
-    if(battery_dir_exists() != BATTERY_OK) {
-        return BATTERY_ERR_DIR_NOT_FOUND;
+bool battery_exists(char *battery_name) {
+    if(!battery_dir_exists()) {
+        return false;
     }
 
     size_t path_len = battery_get_path_len(battery_name);
     char path[path_len + 1];
     battery_get_path(path, battery_name);
 
-    if(dir_exists(path)) {
-        return BATTERY_OK;
-    } else {
-        return BATTERY_ERR_NOT_FOUND;
-    }
+    return dir_exists(path);
 }
 
 BatteryError battery_get_property(char* dest, char *battery_name, char* property_path) {
