@@ -76,6 +76,54 @@ void test_parse_int_untrimmed() {
     }
 }
 
+void test_bat_init() {
+    if(streq(BATTERY_DIR, "/sys/class/power_supply")) {
+        fprintf(stderr, "BATTERY_DIR is normal. Please compile the binary in mock mode to test battery checks\n");
+        abort();
+    }
+
+    if(!battery_dir_exists()) {
+        fprintf(stderr, "Battery directory doesn't exist\n");
+        abort();
+    }
+
+    if(!battery_exists(TEST_BAT)) {
+        fprintf(stderr, "Battery '%s' not found\n", TEST_BAT);
+        abort();
+    }
+}
+
+// Values as in the Makefile prepare-mock target
+void test_bat_percent() {
+    double perc = -1;
+    BatteryError err = battery_get_percentage(&perc, TEST_BAT);
+
+    if(err != BATTERY_OK) {
+        fprintf(stderr, "battery_get_percentage() failed: %s\n", battery_error_str(err));
+        abort();
+    }
+
+    if(perc != 50) {
+        fprintf(stderr, "Expected 50%% got %f%%\n", perc);
+        abort();
+    }
+}
+
+void test_bat_state() {
+    bool discharging = true;
+    BatteryError err = battery_is_discharging(&discharging, TEST_BAT);
+
+    if(err != BATTERY_OK) {
+        fprintf(stderr, "battery_is_discharging() failed: %s\n", battery_error_str(err));
+        abort();
+    }
+
+    if(discharging != false) {
+        fprintf(stderr, "Battery should be charging\n");
+        abort();
+    }
+}
+
 void run_tests() {
     printf("Running tests\n");
     
@@ -84,6 +132,9 @@ void run_tests() {
     run_test(test_parse_int_single);
     run_test(test_parse_int_multi);
     run_test(test_parse_int_untrimmed);
+
+    run_test(test_bat_init);
+    run_test(test_bat_percent);
 
     printf("All tests successful\n");
     exit(0);
