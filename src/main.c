@@ -56,7 +56,19 @@ void process_args(AppState *state, int argc, char **argv) {
 }
 
 void print_help() {
-    puts("no help yet eh");
+    puts("Usage: bateria [--target <percent> [--command <command>]] | [--help] [--version]");
+    puts("");
+    puts("General options:");
+    puts("--help          : Shows this help");
+    puts("--version       : Shows program version");
+    puts("--battery <name>: Specifies which battery should be monitoreds");
+    puts("");
+    puts("Discharge target options:");
+    puts("--target   <percent>: Initializes a target and specifies on what battery percent it should run");
+    puts("--command  <command>: System command to run when the target is reached");
+    puts("");
+    puts("For bugs, help & source code visit:");
+    puts("https://github.com/Wolfyxon/bateria");
 }
 
 void print_init(AppState *state) {
