@@ -1,0 +1,10 @@
+# Binaries
+*.exe
+*.o
+*.d
+
+# Other
+*.tmp
+
+# Specific files
+bateria
