@@ -6,6 +6,7 @@ CC := gcc
 CFLAGS := -Wall -Os -lm -DVERSION='"1.0"' $(CFLAGS)
 TEST_DIR := /tmp/bat
 TEST_BAT := BAT0
+RUN_ARGS := --interval 0.5
 SRC := src
 
 .PHONY: build release test run run-mock prepare-mock build-mock clean
@@ -22,7 +23,7 @@ test: prepare-mock
 	./$(OUT_NAME)
 
 run: build
-	./$(OUT_NAME)
+	./$(OUT_NAME) $(RUN_ARGS)
 
 prepare-mock:
 	mkdir -p $(TEST_DIR)/$(TEST_BAT)
@@ -34,7 +35,7 @@ build-mock: prepare-mock
 	CFLAGS="-DBATTERY_DIR='\"$(TEST_DIR)\"' -DBUILD_WARNING='\"Running in mock mode\"'" make build
 
 run-mock: build-mock
-	./$(OUT_NAME)
+	./$(OUT_NAME) $(RUN_ARGS)
 
 clean:
 	rm -f $(OUT_NAME)
