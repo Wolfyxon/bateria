@@ -31,6 +31,30 @@ void load_state_from_args(AppState *state, int argc, char **argv) {
             i++;
         }
 
+        else if(streq(arg, "--interval")) {
+            if(argc < i + 2) {
+                fprintf(stderr, "error: Usage: --interval <seconds>\n");
+                exit(1);
+            }
+
+            char *s_arg = argv[i + 1];
+
+            if(!parse_float(&state->interval, s_arg)) {
+                fprintf(stderr, "error: Invalid seconds value '%s'\n", s_arg);
+                exit(1);
+            }
+
+            if(state->interval < 0) {
+                fprintf(stderr, "warning: Negative interval. Your CPU will suffer\n");
+            }
+
+            if(state->interval == 0) {
+                fprintf(stderr, "warning: Interval is 0. Your CPU will suffer\n");
+            }
+
+            i++;
+        }
+
         else if(streq(arg, "--target")) {
             if(!targets_added) {
                 clear_targets(state);

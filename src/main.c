@@ -57,12 +57,13 @@ void process_args(AppState *state, int argc, char **argv) {
 }
 
 void print_help() {
-    puts("Usage: bateria [--target <percent> [--command <command>]] | [--help] [--version]");
+    puts("Usage: bateria  [--help] [--version] | [--interval <seconds>] [--target <percent> [--command <command>]]...");
     puts("");
     puts("General options:");
-    puts("--help          : Shows this help");
-    puts("--version       : Shows program version");
-    puts("--battery <name>: Specifies which battery should be monitoreds");
+    puts("--help              : Shows this help");
+    puts("--version           : Shows program version");
+    puts("--battery  <name>   : Specifies which battery should be monitoreds");
+    puts("--interval <seconds>: Specifies the interval between checks. Floats are supported");
     puts("");
     puts("Discharge target options:");
     puts("--target   <percent>: Initializes a target and specifies on what battery percent it should run");
