@@ -24,6 +24,7 @@ int main(int argc, char **argv) {
         exit(1);
     }
     
+    check_duplicates(&state);
     print_init(&state);
 
     #ifdef BUILD_WARNING
@@ -106,6 +107,30 @@ void print_targets(AppState *state) {
         printf("Command: %s\n", target.command);
         
         printf("---------------------------\n");
+    }
+}
+
+void check_duplicates(AppState *state) {
+    bool ok = true;
+
+    for(size_t i = 0; i < state->battery_targets_len; i++) {
+        for(size_t j = i; j < state->battery_targets_len; j++) {
+            BatteryTarget *a = &state->battery_targets[i];
+            BatteryTarget *b = &state->battery_targets[j];
+
+            if(a == b) {
+                continue;
+            }
+
+            if(a->percent == b->percent) {
+                fprintf(stderr, "error: Duplicate targets for value %d%%\n", a->percent);
+                ok = false;
+            }
+        }
+    }
+
+    if(!ok) {
+        exit(1);
     }
 }
 
