@@ -1,4 +1,7 @@
 # Binaries
+release/
+build/
+
 *.exe
 *.o
 *.d
