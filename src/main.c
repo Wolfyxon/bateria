@@ -72,8 +72,15 @@ void print_help() {
 }
 
 void print_init(AppState *state) {
-    printf("Registered targets %ld:\n", state->battery_targets_len);
     print_targets(state);
+    printf("Registered targets %ld\n", state->battery_targets_len);
+    printf("Check interval: %fs\n", state->interval);
+    printf("Used battery: %s\n", state->battery_name);
+    
+    double test_perc = -1;
+    battery_get_percentage(&test_perc, state->battery_name);
+
+    printf("Starting percentage: %f%%\n", test_perc);
 
     for(int i = 0; i < state->battery_targets_len; i++) {
         BatteryTarget *tg = &state->battery_targets[i];
