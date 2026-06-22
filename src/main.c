@@ -41,6 +41,11 @@ void process_args(AppState *state, int argc, char **argv) {
     for(size_t i = 0; i < argc; i++) {
         char *arg = argv[i];
 
+        if(streq(arg, "--version")) {
+            printf("bateria v. %s\n", VERSION);
+            exit(0);
+        }
+
         if(streq(arg, "--help")) {
             print_help();
             exit(0);

@@ -6,6 +6,10 @@
 #include "battery.h"
 #include "tests.h"
 
+#ifndef VERSION
+#define VERSION "unknown"
+#endif
+
 int main(int argc, char **argv);
 void process_args(AppState *state, int argc, char **argv);
 void print_help();
