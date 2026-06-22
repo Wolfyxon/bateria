@@ -135,6 +135,7 @@ void run_tests() {
 
     run_test(test_bat_init);
     run_test(test_bat_percent);
+    run_test(test_bat_state);
 
     printf("All tests successful\n");
     exit(0);
