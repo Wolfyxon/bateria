@@ -161,6 +161,8 @@ BatteryTarget *get_active_battery_target(AppState *state) {
         return NULL;
     }
 
+    percent = round(percent);
+
     BatteryTarget *current_target = NULL;
 
     for(size_t i = 0; i < state->battery_targets_len; i++) {

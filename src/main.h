@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdio.h>
+#include <math.h>
 
 #include "config.h"
 #include "battery.h"

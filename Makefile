@@ -3,7 +3,7 @@ OUT_NAME := bateria
 VERSION := 1.0
 
 CC := gcc
-CFLAGS := -Wall -Os -lconfig -DVERSION='"1.0"' $(CFLAGS)
+CFLAGS := -Wall -Os -lm -DVERSION='"1.0"' $(CFLAGS)
 TEST_DIR := /tmp/bat
 TEST_BAT := BAT0
 SRC := src
