@@ -61,6 +61,21 @@ void test_parse_int_multi() {
     }
 }
 
+void test_parse_int_negative() {
+    char *str = "-17";
+    int res = 0;
+
+    if(!parse_int(&res, str)) {
+        fprintf(stderr, "parse_int returned fail\n");
+        abort();
+    }
+
+    if(res != -17) {
+        fprintf(stderr, "Expected -17, got %d\n", res);
+        abort();
+    }
+}
+
 void test_parse_int_untrimmed() {
     char *str = "\n 1254   \n";
     int res = 0;
@@ -131,6 +146,7 @@ void run_tests() {
     run_test(test_strslice);
     run_test(test_parse_int_single);
     run_test(test_parse_int_multi);
+    run_test(test_parse_int_negative);
     run_test(test_parse_int_untrimmed);
 
     run_test(test_bat_init);

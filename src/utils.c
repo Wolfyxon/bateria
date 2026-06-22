@@ -20,7 +20,9 @@ bool dir_exists(char *path) {
 
 bool is_int(char *string) {
     size_t len = strlen(string);
+
     bool has_minus = false;
+    bool got_digit = false;
 
     if(len == 0) {
         return false;
@@ -30,17 +32,19 @@ bool is_int(char *string) {
         char c = string[i];
 
         if(c == '-') {
-            if(has_minus) {
+            if(has_minus || got_digit) {
                 return false;
             }
 
             has_minus = true;
             continue;
         }
-        
+
         if(!isdigit(c)) {
             return false;
         }
+        
+        got_digit = true;
     }
 
     return true;
