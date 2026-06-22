@@ -1,8 +1,8 @@
 # bateria
-Universal battery discharge alert for Linux, written in C.
+Universal battery discharge alerting tool for Linux, written in C.
 
 ## Usage
-The program doesn't provide notifications by itself to preserve its universality (and because I'm lazy), but it can be paired with `notify-send`
+The program doesn't provide notifications by itself to preserve its universality (and because I'm lazy), but it can be paired with `notify-send` (on GUI systems), or `wall` (on terminal only systems like servers). 
 
 ```
 bateria [--target <percentage> --command <command to run>]...
