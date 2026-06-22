@@ -87,6 +87,7 @@ bool is_float(const char *string) {
             }
 
             has_dot = true;
+            continue;
         }
 
         if(!isdigit(c)) {
@@ -153,5 +154,20 @@ bool parse_int(int *dest, const char *string) {
     }
 
     *dest = atoi(trimmed);
+    return true;
+}
+
+bool parse_float(double *dest, const char *string) {
+    size_t start, end = 0;
+    strtrimbounds(string, &start, &end);
+    
+    char trimmed[(end - start) + 1];
+    strslice(trimmed, string, start, end);
+
+    if(!is_float(trimmed)) {
+        return false;
+    }
+
+    *dest = atof(trimmed);
     return true;
 }

@@ -91,6 +91,66 @@ void test_parse_int_untrimmed() {
     }
 }
 
+void test_parse_float_int() {
+    char *str = "12";
+    double res = 0;
+
+    if(!parse_float(&res, str)) {
+        fprintf(stderr, "parse_float() returned fail\n");
+        abort();
+    }
+
+    if(res != 12) {
+        fprintf(stderr, "Expected 12, got %f\n", res);
+        abort();
+    }
+}
+
+void test_parse_float() {
+    char *str = "28.19";
+    double res = 0;
+
+    if(!parse_float(&res, str)) {
+        fprintf(stderr, "parse_float() returned fail\n");
+        abort();
+    }
+
+    if(res != 28.19) {
+        fprintf(stderr, "Expected 28.19, got %f\n", res);
+        abort();
+    }
+}
+
+void test_parse_no_left() {
+    char *str = ".5";
+    double res = 0;
+
+    if(!parse_float(&res, str)) {
+        fprintf(stderr, "parse_float() returned fail\n");
+        abort();
+    }
+
+    if(res != 0.5) {
+        fprintf(stderr, "Expected 0.5, got %f\n", res);
+        abort();
+    }
+}
+
+void test_parse_no_right() {
+    char *str = "4.";
+    double res = 0;
+
+    if(!parse_float(&res, str)) {
+        fprintf(stderr, "parse_float() returned fail\n");
+        abort();
+    }
+
+    if(res != 4.0) {
+        fprintf(stderr, "Expected 4.0, got %f\n", res);
+        abort();
+    }
+}
+
 void test_bat_init() {
     if(streq(BATTERY_DIR, "/sys/class/power_supply")) {
         fprintf(stderr, "BATTERY_DIR is normal. Please compile the binary in mock mode to test battery checks\n");
@@ -144,10 +204,16 @@ void run_tests() {
     
     run_test(test_strtrimbounds);
     run_test(test_strslice);
+
     run_test(test_parse_int_single);
     run_test(test_parse_int_multi);
     run_test(test_parse_int_negative);
     run_test(test_parse_int_untrimmed);
+
+    run_test(test_parse_float_int);
+    run_test(test_parse_float);
+    run_test(test_parse_no_left);
+    run_test(test_parse_no_right);
 
     run_test(test_bat_init);
     run_test(test_bat_percent);
