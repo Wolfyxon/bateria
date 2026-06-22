@@ -29,7 +29,7 @@ run-mock:
 	echo 50 > $(TEST_DIR)/$(TEST_BAT)/energy_now
 	echo Charging > $(TEST_DIR)/$(TEST_BAT)/status
 
-	CFLAGS="-DBATTERY_DIR='\"$(TEST_DIR)\"'" make build
+	CFLAGS="-DBATTERY_DIR='\"$(TEST_DIR)\"' -DBUILD_WARNING='\"Running in mock mode\"'" make build
 	./$(OUT_NAME)
 
 clean:

@@ -1,5 +1,4 @@
 #include "main.h"
-#include "battery.h"
 
 int main(int argc, char **argv) {
     #ifdef ENABLE_TESTS
@@ -17,7 +16,11 @@ int main(int argc, char **argv) {
     
     print_init(&state);
 
-    puts("Battery guard started");
+    #ifdef BUILD_WARNING
+    fprintf(stderr, "warning: %s\n", BUILD_WARNING);
+    #endif
+
+    puts("\nBattery guard started\n");
 
     while(1) {
         main_loop(&state);
@@ -43,6 +46,22 @@ void print_help() {
 
 void print_init(AppState *state) {
     printf("Registered targets %ld:\n", state->battery_targets_len);
+    print_targets(state);
+
+    for(int i = 0; i < state->battery_targets_len; i++) {
+        BatteryTarget *tg = &state->battery_targets[i];
+
+        if(tg->command == NULL) {
+            fprintf(
+                stderr, 
+                "warning: Some targets have no command configured. You will only get stdout messages and NO notifications!\n"
+            );
+            break;
+        }
+    }
+}
+
+void print_targets(AppState *state) {
     printf("---------------------------\n");
 
     for(size_t i = 0; i < state->battery_targets_len; i++) {

@@ -10,6 +10,7 @@ int main(int argc, char **argv);
 void process_args(AppState *state, int argc, char **argv);
 void print_help();
 void print_init(AppState *state);
+void print_targets(AppState *state);
 
 void battery_target_exec(AppState *state, BatteryTarget *target);
 bool should_loop(AppState *state);
